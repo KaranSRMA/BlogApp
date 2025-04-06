@@ -3,7 +3,6 @@ import CustomBadge from './CustomBadge'
 import RoundarrowButton from './RoundarrowButton'
 
 const Cta = () => {
-    const RouteText = '/resources';
 
     return (
         <div className='bg-[#191919] lg:p-20 p-10'>
@@ -27,7 +26,7 @@ const Cta = () => {
                 <div className='bg-[#191919] p-3 md:p-5 rounded-2xl'>
                     <div className='flex justify-between items-center'>
                         <p className='text-white text-lg'>Resources Access</p>
-                        <RoundarrowButton route={RouteText}/>
+                        <RoundarrowButton route="/resources"/>
                     </div>
                     <div className='pt-5'>
                         <p className='text-gray-400'>Visitors can access a wide range of resources, including ebooks, whitepapers, reports.</p>
@@ -35,20 +34,20 @@ const Cta = () => {
                 </div>
                 <div className='bg-[#191919] p-3 md:p-5 rounded-2xl'>
                     <div className='flex justify-between items-center'>
-                        <p className='text-white text-lg'>Resources Access</p>
-                        <RoundarrowButton route={RouteText}/>
+                        <p className='text-white text-lg'>Latest Insights</p>
+                        <RoundarrowButton route="/blogs"/>
                     </div>
                     <div className='pt-5'>
-                        <p className='text-gray-400'>Visitors can access a wide range of resources, including ebooks, whitepapers, reports.</p>
+                        <p className='text-gray-400'>Stay ahead with expert analysis, industry trends, and cutting-edge research.</p>
                     </div>
                 </div>
                 <div className='bg-[#191919] p-3 md:p-5 rounded-2xl'>
                     <div className='flex justify-between items-center'>
-                        <p className='text-white text-lg'>Resources Access</p>
-                        <RoundarrowButton route={RouteText}/>
+                        <p className='text-white text-lg'>Knowledge Hub</p>
+                        <RoundarrowButton route="/blogs"/>
                     </div>
                     <div className='pt-5'>
-                        <p className='text-gray-400'>Visitors can access a wide range of resources, including ebooks, whitepapers, reports.</p>
+                        <p className='text-gray-400'>Explore diverse topics curated for tech enthusiasts and professionals.</p>
                     </div>
                 </div>
             </div>

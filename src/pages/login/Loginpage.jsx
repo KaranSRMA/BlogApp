@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { FcGoogle } from "react-icons/fc";
 import axios from 'axios';
 import { useAuth } from '../../context/AuthContext';
@@ -10,55 +10,50 @@ const Loginpage = () => {
   const navigate = useNavigate();
   const [error, seterror] = useState("");
   const [disabled, setDisabled] = useState(false);
+  const [resendMail, setresendMail] = useState(false);
+  const { isAuthenticated } = useAuth();
   const { login } = useAuth();
-
+  const location = useLocation();
 
   useEffect(() => {
-    async function verifyJWT() {
-      const token = localStorage.getItem("jwt");
-      if (token) {
-        try {
-          // Make a call to your Strapi backend to validate the token.
-          const response = await axios.get(
-            `${import.meta.env.VITE_API_URL}/users/me`,
-            {
-              headers: {
-                Authorization: `Bearer ${token}`,
-              },
-            }
-          );
-          login(token);
-          navigate("/");
-        } catch (error) {
-          // If token is invalid, remove it from storage.
-          localStorage.removeItem("jwt");
-          console.error("Invalid JWT token", error);
-        }
-      }
+    if (isAuthenticated) {
+      navigate(location.state?.from || '/');
     }
-
-    verifyJWT();
-  }, [navigate]);
-
+  }, [isAuthenticated, location.pathname]);
 
   const handleLogin = async (e) => {
     e.preventDefault();
     setDisabled(true);
-    try {
-      identifier = emailInputRef.current.value.trim();
-      password = passwordInputRef.current.value.trim();
 
-      const response = await axios.post(import.meta.env.VITE_LOGIN_URL, { identifier, password })
-      const { jwt } = response.data;
-      login(jwt);
-      localStorage.setItem("jwt", jwt)
+    try {
+      const identifier = emailInputRef.current.value.trim();
+      const password = passwordInputRef.current.value.trim();
+      const response = await axios.post(`${import.meta.env.VITE_LOGIN_URL}`, { identifier, password });
+
+      login(response.data.jwt);
+      seterror("");
+      navigate(location.state?.from || '/');
+    } catch (error) {
+      const errorResponse = error.response?.data?.error;
+      const errorMessage = errorResponse?.message || "An error occurred. Please try again.";
+
+      if (errorResponse?.name === "ApplicationError" && errorMessage === "Your account email is not confirmed") {
+        seterror("Your account email is not confirmed.");
+        setresendMail(true)
+      } else {
+        seterror(errorMessage);
+      }
+    } finally {
       setDisabled(false);
-      navigate('/')
-    } catch (err) {
-      const { data } = err.response;
-      seterror(data.error.message);
     }
+  };
+
+
+  const handleResendMail = async () => {
+    //to do
   }
+
+
 
   const handleGoogleSignup = async (e) => {
     window.location.href = "http://localhost:1337/api/connect/google";
@@ -87,6 +82,7 @@ const Loginpage = () => {
               className="w-full px-4 py-2 border rounded-lg bg-[#141414] border-gray-600 text-white"
               required
             />
+            {resendMail && <button type='button' onClick={handleResendMail} className='text-blue-500 hover:underline'>resend email</button>}
             {error && <p className="text-red-500 text-sm">{error}</p>}
             <button
               type="submit"

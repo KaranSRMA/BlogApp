@@ -1,16 +1,27 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
-import Like from './Like';
-import Comment from './Comment';
-import Share from './Share';
+import qs from 'qs';
 import ArrowupButton from './ArrowupButton'
+import { useAuth } from '../context/AuthContext';
+import { useNavigate, useLocation } from 'react-router-dom';
+import Share from './Share';
 
 const SinglePost = () => {
   const { id } = useParams();
   const [post, setPost] = useState(null);
   const [similarBlogCategory, setsimilarBlogCategory] = useState([]);
   const [similarblogs, setsimilarblogs] = useState([])
+  const [heading, setheading] = useState(false);
+  const { isAuthenticated } = useAuth();
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  useEffect(() => {
+    if (!isAuthenticated) {
+      navigate('/login', { state: { from: location.pathname } });
+    }
+  }, []);
 
   useEffect(() => {
     const fetchPost = async () => {
@@ -22,8 +33,8 @@ const SinglePost = () => {
           setPost(response.data.data);
         }
 
-        if (response.data.data.attributes.blogcategories) {
-          const relatedcategory = response.data.data.attributes.blogcategories.data;
+        if (response.data.data.blogcategories) {
+          const relatedcategory = response.data.data.blogcategories;
           setsimilarBlogCategory(relatedcategory);
         }
 
@@ -40,15 +51,30 @@ const SinglePost = () => {
     const fetchsimilarblogs = async () => {
       try {
         if (similarBlogCategory.length === 0) return;
-        const categoryIds = similarBlogCategory
-          .map(cat => `filters[blogcategories][id][$in]=${cat.id}`)
-          .join("&");
 
-        const response = await axios.get(
-          `${import.meta.env.VITE_SINGLE_POST}?populate=*&${categoryIds}`
+        const categoryIds = similarBlogCategory.map(cat => cat.documentId);
+        const query = qs.stringify(
+          {
+            filters: {
+              blogcategories: {
+                documentId: {
+                  $in: categoryIds,
+                },
+              },
+            },
+            populate: '*',
+          },
+          {
+            encodeValuesOnly: true,
+          }
         );
+
+
+        const response = await axios.get(`${import.meta.env.VITE_SINGLE_POST}?${query}`);
         if (response.data?.data) {
-          setsimilarblogs(response.data.data.slice(0, 3));
+          const filteredBlogs = response.data.data.filter(blog => blog.documentId !== id);
+          setsimilarblogs(filteredBlogs.slice(0, 3));
+          setheading(true);
         }
       } catch (error) {
         console.log("Error fetching related blogs:", error);
@@ -59,9 +85,10 @@ const SinglePost = () => {
   }, [similarBlogCategory]);
 
 
+
   if (!post) return <p className="text-center text-2xl">Loading...</p>;
 
-  const imageUrl = post.attributes.banner?.data?.attributes?.url ? `${import.meta.env.VITE_STRAPI_URL}${post.attributes.banner.data.attributes.url}` : null;
+  const imageUrl = post.banner?.url ? `${import.meta.env.VITE_STRAPI_URL}${post.banner.url}` : null;
 
   return (
     <div>
@@ -72,8 +99,8 @@ const SinglePost = () => {
         )}
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent"></div>
         <div className="absolute bottom-5 left-1/2 -translate-x-1/2 w-full text-center">
-          {post.attributes.headline && (
-            <h2 className="text-xl lg:text-4xl text-white font-bold">{post.attributes.headline}</h2>
+          {post.headline && (
+            <h2 className="text-xl lg:text-4xl text-white font-bold">{post.headline}</h2>
           )}
         </div>
       </div>
@@ -82,14 +109,14 @@ const SinglePost = () => {
         {/* left section  */}
         <div className='order-2 lg:order-1'>
           <div className='border border-gray-600 space-y-3 p-7 lg:p-16'>
-            {post.attributes.mainheading && <h3 className='text-white text-lg'>{post.attributes.mainheading}</h3>}
-            {post.attributes.shortdescription && <p className='text-gray-400'>{post.attributes.shortdescription}</p>}
+            {post.mainheading && <h3 className='text-white text-lg'>{post.mainheading}</h3>}
+            {post.shortdescription && <p className='text-gray-400'>{post.shortdescription}</p>}
           </div>
 
           {/* maincontent  */}
           <div className="border-t border-gray-600 p-7 lg:p-16 space-y-3">
-            <div className="prose lg:prose-lg prose-invert text-white">
-              {post.attributes.dd.map((block, index) => {
+            <div className="overflow-hidden text-white">
+              {post.detaileddescription.map((block, index) => {
                 if (block.type === "paragraph" && block.children[0]?.text === "") {
                   return <br key={index} />;
                 }
@@ -128,17 +155,11 @@ const SinglePost = () => {
 
         {/* right section  */}
         <div className='order-1 lg:order-2'>
-          <div className='flex gap-3 border border-gray-600 p-7 lg:p-10 lg:sticky top-16 bg-[#141414]'>
-            <Like postId={post.id} />
-            <Comment />
-            <Share />
-          </div>
-
-          <div className='border border-gray-600 p-7 lg:p-10'>
+          <div className='border border-gray-600 p-7 lg:p-10 sticky top-20'>
             <div className='flex justify-between '>
               <div>
                 <p className='text-gray-400'>Publication Date</p>
-                {post.attributes.publishedAt && <p className='text-white'>{new Date(post.attributes.publishedAt).toLocaleDateString("en-GB", {
+                {post.publishedAt && <p className='text-white'>{new Date(post.publishedAt).toLocaleDateString("en-GB", {
                   year: "numeric",
                   month: "long",
                   day: "numeric"
@@ -147,81 +168,60 @@ const SinglePost = () => {
               <div>
                 <div className='flex gap-5 items-center'>
                   <div className='w-10 h-10 rounded-full overflow-hidden'>
-                    {post.attributes.authorimage.data.attributes.url && <img src={import.meta.env.VITE_STRAPI_URL + post.attributes.authorimage.data.attributes.url} className='object-cover w-full h-full' alt="author image" />}
+                    {post.authorimage.url && <img src={import.meta.env.VITE_STRAPI_URL + post.authorimage.url} className='object-cover w-full h-full' alt="author image" />}
                   </div>
-                  {post.attributes.authorname && <p className='text-white'>{post.attributes.authorname}</p>}
+                  {post.authorname && <p className='text-white'>{post.authorname}</p>}
                 </div>
               </div>
             </div>
 
-            <div className='py-10'>
-              {post.attributes.blogcategories.data.length > 1 ? <p className='text-gray-400'>Categories</p> : <p className='text-gray-400'>Category</p>}
+            <div className='py-10 flex gap-5 justify-between items-start'>
               <div>
-                {post.attributes.blogcategories.data.map((item, index) => (
-                  item.attributes.category && <p key={index} className="text-white">{item.attributes.category}</p>
+                {post.blogcategories.length > 1 ? <p className='text-gray-400'>Categories</p> : <p className='text-gray-400'>Category</p>}
+                {post.blogcategories.map((item, index) => (
+                  item.category && <p key={index} className="text-white">{item.category}</p>
                 ))}
               </div>
-            </div>
-
-            {/* table of content  */}
-            <div>
-              <p className="text-gray-400 pb-2">Table of Contents</p>
-              <div className="bg-[#191919] p-6 rounded-2xl overflow-x-auto lg:max-w-72">
-                {post.attributes.tableofcontents && (
-                  <ul className="list-disc list-inside text-white space-y-2 w-max">
-                    {post.attributes.tableofcontents.split("\n").map((item, index) => (
-                      <li
-                        key={index}
-                        className="overflow-hidden whitespace-nowrap"
-                        title={item}
-                      >
-                        {item}
-                      </li>
-                    ))}
-                  </ul>
-                )}
-              </div>
+              <Share />
             </div>
           </div>
         </div>
       </div>
 
       {/* similar blog section  */}
-      <div className='bg-[#141414] border-t border-gray-600 p-5'>
-        <div className='flex justify-between p-5'>
-          <h3 className='text-2xl text-white'>Similar Blogs</h3>
-          <ArrowupButton text="View All Blogs" />
-        </div>
+      {similarblogs.map((blog, index) => (
+        <div key={index} className='bg-[#141414] border-t border-gray-600 p-5'>
+          {heading && <div className='flex justify-between p-5'>
+            <h3 className='text-2xl text-white'>Similar Blogs</h3>
+            <ArrowupButton text="View All Blogs" route="/blogs" />
+          </div>}
 
-        <div className='md:grid lg:grid-cols-3 justify-center md:grid-cols-2 grid-cols-1 gap-5'>
-          {similarblogs.map((blog, index) => (
+          <div className='grid lg:grid-cols-3 justify-center md:grid-cols-2 grid-cols-1 md:gap-5 gap-10'>
 
-            <div key={index} className='p-3 '>
-              <div className='sm:w-80 sm:h-48 w-72 h-72 rounded-2xl overflow-hidden'>
-                {blog.attributes.banner.data.attributes.url && <img src={import.meta.env.VITE_STRAPI_URL + blog.attributes.banner.data.attributes.url} alt="image" className='w-full h-full object-cover' />}
+            <div className='p-3 flex flex-col'>
+              <div className='h-72 rounded-2xl overflow-hidden'>
+                {blog.banner.url && <img src={import.meta.env.VITE_STRAPI_URL + blog.banner.url} alt="image" className='w-full h-full object-cover' />}
               </div>
-              <div className='md:p-4 w-72 sm:w-80 p-2'>
-                {blog.attributes.headline && (
-                  <p className='text-white text-sm truncate overflow-hidden whitespace-nowrap w-full'>{blog.attributes.headline}</p>
+              <div className='md:p-4 p-2'>
+                {blog.headline && (
+                  <p className='text-white text-sm truncate overflow-hidden whitespace-nowrap w-full'>{blog.headline}</p>
                 )}
-                {blog.attributes.blogcategories.data[0].attributes.category && (
+                {blog.blogcategories[0].category && (
                   <p className='text-gray-400 text-xs pt-1 truncate overflow-hidden whitespace-nowrap w-full'>
-                    {blog.attributes.blogcategories.data[0].attributes.category}
+                    {blog.blogcategories[0].category}
                   </p>
                 )}
               </div>
 
 
-              <div className='flex gap-3'>
-                <Like />
-                <Share />
-                <ArrowupButton text="Read More" />
+              <div className='flex items-center px-3 gap-16 justify-between w-fit'>
+                <ArrowupButton text="Read More" route={`/post/${blog.documentId}`} />
               </div>
             </div>
-          ))}
-        </div>
+          </div>
 
-      </div>
+        </div>
+      ))}
     </div>
   );
 };

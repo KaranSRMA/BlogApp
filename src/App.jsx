@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route, useLocation, useNavigate } from "react-router-dom";
+import { Routes, Route, useLocation, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -16,6 +16,8 @@ import LoginPage from "./pages/login/Loginpage";
 import SignupPage from "./pages/signup/Signuppage";
 import GoogleRedirectHandler from "./pages/google/GoogleRedirectHandler";
 import Logout from "./components/Logout";
+import TermsandConditions from "./components/TermsandConditions";
+import Privacy from "./components/Privacy";
 
 function NotFoundHandler() {
   const location = useLocation();
@@ -39,17 +41,19 @@ function NotFoundHandler() {
   return null;
 }
 
+
 function App() {
   return (
-    <Router>
+    <>
       <ScrollToTop />
       <Navbar />
       <MainRoutes />
       <Footer />
       <ToastContainer />
-    </Router>
+    </>
   );
 }
+
 
 function MainRoutes() {
   const location = useLocation();
@@ -57,19 +61,21 @@ function MainRoutes() {
 
   return (
     <>
-      <Routes>
-        <Route path="/" element={<Homepage />} />
-        <Route path="/blogs" element={<Blogspage />} />
-        <Route path="/about" element={<Aboutpage />} />
-        <Route path="/contact" element={<Contactpage />} />
-        <Route path="/resources" element={<Resourcespage />} />
-        <Route path="/post/:id" element={<SinglePost />} />
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/signup" element={<SignupPage />} />
-        <Route path="/logout" element={<Logout />} />
-        <Route path="/connect/google/redirect" element={<GoogleRedirectHandler />} />
-        <Route path="*" element={<NotFoundHandler />} />
-      </Routes>
+        <Routes>
+          <Route path="/" element={<Homepage />} />
+          <Route path="/blogs" element={<Blogspage />} />
+          <Route path="/about" element={<Aboutpage />} />
+          <Route path="/contact" element={<Contactpage />} />
+          <Route path="/resources" element={<Resourcespage />} />
+          <Route path="/post/:id" element={<SinglePost />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/signup" element={<SignupPage />} />
+          <Route path="/logout" element={<Logout />} />
+          <Route path="/terms" element={<TermsandConditions />} />
+          <Route path="/privacy" element={<Privacy />} />
+          <Route path="/connect/google/redirect" element={<GoogleRedirectHandler />} />
+          <Route path="*" element={<NotFoundHandler />} />
+        </Routes>
 
       {!hideComponents && (
         <>

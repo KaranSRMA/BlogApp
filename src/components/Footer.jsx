@@ -1,4 +1,7 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
+import { FaFacebookF, FaInstagram } from 'react-icons/fa';
+
 
 const Footer = () => {
   return (
@@ -8,20 +11,20 @@ const Footer = () => {
         <div className='space-y-3 py-5'>
           <h4 className='text-white text-lg'>Home</h4>
           <ul className='space-y-3'>
-            <li className='text-gray-400 list-none'>Features</li>
-            <li className='text-gray-400 list-none'>Blogs</li>
-            <li className='text-gray-400 list-none'>Resources</li>
-            <li className='text-gray-400 list-none'>Contact Us</li>
+            <li className='text-gray-400 list-none'><Link to="/#features">Features</Link></li>
+            <li className='text-gray-400 list-none'><Link to="/#blogs">Blogs</Link></li>
+            <li className='text-gray-400 list-none'><Link to="/#resources">Resources</Link></li>
+            <li className='text-gray-400 list-none'><Link to='/contact'>Contact Us</Link></li>
           </ul>
         </div>
         {/* news  */}
         <div className='space-y-3 py-5'>
-          <h4 className='text-white text-lg'>News</h4>
+          <h4 className='text-white text-lg'>Resources</h4>
           <ul className='space-y-3'>
-            <li className='text-gray-400 list-none'>Trending news</li>
-            <li className='text-gray-400 list-none'>Cybersecurity Updates</li>
-            <li className='text-gray-400 list-none'>AI & Machine Learning</li>
-            <li className='text-gray-400 list-none'>Software and apps</li>
+            <li className='text-gray-400 list-none'><Link to='/resources'>Tech Highlights</Link></li>
+            <li className='text-gray-400 list-none'><Link to='/resources'>Security Insights</Link></li>
+            <li className='text-gray-400 list-none'><Link to='/resources'>Smart Tech</Link></li>
+            <li className='text-gray-400 list-none'><Link to='/resources'>App Arena</Link></li>
           </ul>
         </div>
 
@@ -29,10 +32,10 @@ const Footer = () => {
         <div className='space-y-3 py-5'>
           <h4 className='text-white text-lg'>Blogs</h4>
           <ul className='space-y-3'>
-            <li className='text-gray-400 list-none'>AI Ethics</li>
-            <li className='text-gray-400 list-none'>Big Tech & Industry Trends</li>
-            <li className='text-gray-400 list-none'>Cloud Computing & DevOps</li>
-            <li className='text-gray-400 list-none'>Software and apps</li>
+            <li className='text-gray-400 list-none'><Link to='/blogs'>Tools & Trends</Link></li>
+            <li className='text-gray-400 list-none'><Link to='/blogs'>Behind the Stack</Link></li>
+            <li className='text-gray-400 list-none'><Link to='/blogs'>Industry Pulse</Link></li>
+            <li className='text-gray-400 list-none'><Link to='/blogs'>Perspectives</Link></li>
           </ul>
         </div>
       </div>
@@ -42,20 +45,22 @@ const Footer = () => {
 
       <div className='text-gray-400 flex flex-col md:flex-row gap-5 md:gap-0 md:justify-around items-center py-3 md:py-10'>
         <div className='flex items-center gap-2 order-2 md:order-1'>
-          <p>Terms and Conditions</p>
+          <p><Link to='/terms'>Terms and Conditions</Link></p>
           <div className='w-[1px] h-5 bg-gray-600'></div>
-          <p>Privacy Policy</p>
+          <p><Link to='/privacy'>Privacy Policy</Link></p>
         </div>
 
         <div className='flex gap-3 order-1 md:order-2'>
           <div className='w-10 h-10 rounded-full overflow-hidden'>
-            <img src="/svgs/global.svg" alt="icon" className='w-full h-full object-cover' />
+            <a href="https://facebook.com" target="_blank" rel="noopener noreferrer">
+              <FaFacebookF className="hover:text-blue-600 text-3xl cursor-pointer" />
+            </a>
           </div>
+
           <div className='w-10 h-10 rounded-full overflow-hidden'>
-            <img src="/svgs/global.svg" alt="icon" className='w-full h-full object-cover' />
-          </div>
-          <div className='w-10 h-10 rounded-full overflow-hidden'>
-            <img src="/svgs/global.svg" alt="icon" className='w-full h-full object-cover' />
+            <a href="https://instagram.com" target="_blank" rel="noopener noreferrer">
+              <FaInstagram className="hover:text-pink-500 text-3xl cursor-pointer" />
+            </a>
           </div>
         </div>
 

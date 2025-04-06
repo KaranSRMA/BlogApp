@@ -1,80 +1,103 @@
-import React from 'react'
+import React, { useState } from 'react';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const Contactpage = () => {
+    const [check, setCheck] = useState(true);
+    const [formData, setFormData] = useState({
+        firstName: '',
+        lastName: '',
+        email: '',
+        phone: '',
+        message: ''
+    });
+    const [submitted, setSubmitted] = useState(false);
+    const navigate = useNavigate();
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData({ ...formData, [name]: value });
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        if (!check) return;
+
+        try {
+            await axios.post('http://localhost:1337/api/contacts', {
+                data: formData
+            });
+
+            setFormData({ firstName: '', lastName: '', email: '', phone: '', message: '' });
+            setSubmitted(true);
+        } catch (error) {
+            alert("Error submitting form: " + error.message);
+        }
+    };
+
+    if (submitted) {
+        return (
+            <div className="bg-[#141414] text-white py-20 px-5 md:px-20 text-center">
+                <div className="bg-[#191919] p-8 rounded-lg shadow-lg border border-gray-700">
+                    <h2 className="text-3xl font-semibold text-green-400 mb-4">Thank you!</h2>
+                    <p className="text-gray-300 mb-6">Your message has been submitted successfully.</p>
+                    <button
+                        onClick={() => navigate('/')}
+                        className="bg-yellow-500 hover:bg-yellow-600 text-black px-6 py-3 rounded-lg"
+                    >
+                        Return to Main Menu
+                    </button>
+                </div>
+            </div>
+        );
+    }
+
     return (
         <div className="bg-[#141414] text-white py-10 px-5 md:px-20">
-            {/* Contact Info Section */}
-            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
-                <div className="bg-[#191919] p-6 rounded-lg border border-gray-700 text-center">
-                    <p className="text-gray-400">General Inquiries</p>
-                    <p className="text-gray-300">contact@techsite.com</p>
-                    <p className="text-yellow-500">+1 (123) 456-7890</p>
-                </div>
-                <div className="bg-[#191919] p-6 rounded-lg border border-gray-700 text-center">
-                    <p className="text-gray-400">Technical Support</p>
-                    <p className="text-gray-300">support@techsite.com</p>
-                    <p className="text-yellow-500">+1 (123) 456-7890</p>
-                </div>
-                <div className="bg-[#191919] p-6 rounded-lg border border-gray-700 text-center">
-                    <p className="text-gray-400">Our Office</p>
-                    <p className="text-gray-300">123 AI Tech Avenue, Techville</p>
-                    <button className="text-yellow-500 hover:underline">Get Directions</button>
-                </div>
-                <div className="bg-[#191919] p-6 rounded-lg border border-gray-700 text-center">
-                    <p className="text-gray-400">Connect with Us</p>
-                    <div className="flex justify-center gap-3 mt-2">
-                        <button className="text-gray-300">🐦</button>
-                        <button className="text-gray-300">📘</button>
-                        <button className="text-gray-300">🔗</button>
-                    </div>
-                </div>
-            </div>
-
             {/* Contact Form */}
-            <div className="bg-[#191919] p-8 rounded-lg shadow-lg border border-gray-700 mb-10">
+            <form onSubmit={handleSubmit} className="bg-[#191919] p-8 rounded-lg shadow-lg border border-gray-700 mb-10">
                 <h2 className="text-3xl font-semibold text-gray-300 mb-6">Get in Touch</h2>
                 <div className="grid md:grid-cols-2 gap-6">
-                    <input type="text" placeholder="First Name" className="p-3 bg-[#242424] text-white border border-gray-600 rounded w-full" />
-                    <input type="text" placeholder="Last Name" className="p-3 bg-[#242424] text-white border border-gray-600 rounded w-full" />
+                    <input type="text" name="firstName" value={formData.firstName} onChange={handleChange} placeholder="First Name" className="p-3 bg-[#242424] text-white border border-gray-600 rounded w-full" required />
+                    <input type="text" name="lastName" value={formData.lastName} onChange={handleChange} placeholder="Last Name" className="p-3 bg-[#242424] text-white border border-gray-600 rounded w-full" required />
                 </div>
                 <div className="grid md:grid-cols-2 gap-6 mt-4">
-                    <input type="email" placeholder="Email" className="p-3 bg-[#242424] text-white border border-gray-600 rounded w-full" />
+                    <input type="email" name="email" value={formData.email} onChange={handleChange} placeholder="Email" className="p-3 bg-[#242424] text-white border border-gray-600 rounded w-full" required />
                     <div className="flex gap-1 items-center bg-[#242424] border border-gray-600 rounded w-full">
                         <select className="bg-[#242424] text-white p-3 border-r border-gray-600">
-                            <option>+1</option>
                             <option>+91</option>
-                            <option>+44</option>
-                            <option>+81</option>
                         </select>
-                        <input type="text" placeholder="Phone Number" className="p-3 bg-[#242424] text-white w-full" />
+                        <input type="text" name="phone" value={formData.phone} onChange={handleChange} placeholder="Phone Number" className="p-3 bg-[#242424] text-white w-full" required />
                     </div>
                 </div>
-                <textarea placeholder="Message" className="p-3 bg-[#242424] text-white border border-gray-600 rounded w-full mt-4 h-32"></textarea>
+                <textarea name="message" value={formData.message} onChange={handleChange} placeholder="Message" className="p-3 bg-[#242424] text-white border border-gray-600 rounded w-full mt-4 h-32" required></textarea>
                 <div className="flex items-center justify-between mt-4">
                     <div className="flex items-center">
-                        <input type="checkbox" id="terms" className="mr-2" />
-                        <label htmlFor="terms" className="text-gray-400 text-sm">I agree with Terms of Use and Privacy Policy</label>
+                        <input
+                            type="checkbox"
+                            id="terms"
+                            className="mr-2"
+                            checked={check}
+                            onChange={(e) => setCheck(e.target.checked)}
+                        />
+                        <label htmlFor="terms" className="text-gray-400 text-sm">
+                            I agree with Terms of Use and Privacy Policy
+                        </label>
                     </div>
-                    <button className="bg-yellow-500 text-black px-6 py-3 rounded-lg hover:bg-yellow-600">Send</button>
+                    <button
+                        type="submit"
+                        disabled={!check}
+                        className={`px-6 py-3 rounded-lg transition-colors duration-300 ${check ? 'bg-yellow-500 hover:bg-yellow-600 text-black' : 'bg-gray-600 cursor-not-allowed text-gray-400'}`}
+                    >
+                        Send
+                    </button>
                 </div>
-            </div>
-
-            {/* FAQ Section */}
-            <div className="bg-[#191919] p-8 rounded-lg border border-gray-700">
-                <h2 className="text-3xl font-semibold text-gray-300 mb-5">Frequently Asked Questions</h2>
-                <div className="space-y-4">
-                    <details className="bg-gray-800 p-4 rounded-lg">
-                        <summary className="cursor-pointer text-lg font-semibold">What is AI?</summary>
-                        <p className="text-gray-400 mt-2">AI stands for Artificial Intelligence, which enables machines to learn and make decisions.</p>
-                    </details>
-                    <details className="bg-gray-800 p-4 rounded-lg">
-                        <summary className="cursor-pointer text-lg font-semibold">How can I contact support?</summary>
-                        <p className="text-gray-400 mt-2">You can contact us via email at support@yourdomain.com.</p>
-                    </details>
-                </div>
-            </div>
+                {!check && (
+                    <p className="text-red-500 text-sm mt-2">Please agree to the terms and conditions to continue.</p>
+                )}
+            </form>
         </div>
-    )
-}
+    );
+};
 
-export default Contactpage
+export default Contactpage;

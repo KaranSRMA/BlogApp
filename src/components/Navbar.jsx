@@ -21,8 +21,8 @@ const Navbar = () => {
         const fetchLogo = async () => {
             try {
                 const RESPONSE = await axios.get(import.meta.env.VITE_LOGO_URL);
-                const LOGOPATH = RESPONSE.data.data[0]?.attributes?.Logo?.data?.attributes?.url; // Ensure correct field name
-                const SITENAME = RESPONSE.data.data[0]?.attributes?.SiteName;
+                const LOGOPATH = RESPONSE.data.data[0]?.Logo?.url; // Ensure correct field name
+                const SITENAME = RESPONSE.data.data[0]?.SiteName;
 
                 if (LOGOPATH) {
                     setLogoUrl(import.meta.env.VITE_STRAPI_URL + LOGOPATH);
@@ -31,7 +31,7 @@ const Navbar = () => {
                 if (SITENAME) {
                     setsiteName(SITENAME)
                 }
-            } catch (error) {
+           } catch (error) {
                 console.log("Error fetching logo:", error);
             }
         };

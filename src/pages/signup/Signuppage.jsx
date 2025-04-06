@@ -11,37 +11,19 @@ const Signuppage = () => {
   const passwordInputRef = useRef(null);
   const confirmpasswordInputRef = useRef(null);
   const navigate = useNavigate();
-  const {login} = useAuth();
+  const { isAuthenticated } = useAuth();
 
   const [error, seterror] = useState("");
   const [disabled, setDisabled] = useState(false);
 
   useEffect(() => {
-    async function verifyJWT() {
-      const token = localStorage.getItem("jwt");
-      if (token) {
-        try {
-          // Make a call to your Strapi backend to validate the token.
-          const response = await axios.get(
-            `${import.meta.env.VITE_API_URL}/users/me`,
-            {
-              headers: {
-                Authorization: `Bearer ${token}`,
-              },
-            }
-          );
-          login(token);
-          navigate("/");
-        } catch (error) {
-          // If token is invalid, remove it from storage.
-          localStorage.removeItem("jwt");
-          console.error("Invalid JWT token", error);
-        }
+    const Authenticated = () => {
+      if (isAuthenticated) {
+        navigate('/')
       }
     }
-
-    verifyJWT();
-  }, [navigate]);
+    Authenticated();
+  }, [isAuthenticated]);
 
   const handleSignup = async (e) => {
     e.preventDefault();
@@ -72,18 +54,16 @@ const Signuppage = () => {
       confirmpasswordInputRef.current.value = "";
       setDisabled(false);
       navigate("/login")
-    } catch (err) {
-      if (err.response) {
-        const { status, data } = err.response;
-        if (status === 400) {
-          seterror(data.error.message); 
-        } else {
-          seterror('An unexpected error occurred. Please try again later.');
-        }
-      } else if (err.request) {
-        seterror('Unable to connect to the server. Please check your network connection.');
+    } catch (error) {
+      console.error("Login Error:", error); // Debugging log
+      setDisabled(false);
+
+      if (error.response) {
+        seterror(error.response.data?.error?.message || "Invalid credentials.");
+      } else if (error.request) {
+        seterror("No response from server. Please try again later.");
       } else {
-        seterror('An error occurred. Please try again.');
+        seterror("An error occurred. Please try again.");
       }
     }
   }
