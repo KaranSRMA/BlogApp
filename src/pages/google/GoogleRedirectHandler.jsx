@@ -9,7 +9,7 @@ const GoogleRedirectHandler = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get(`http://localhost:1337/api/auth/google/callback${location.search}`);
+                const response = await axios.get(`https://blogmazebackend.onrender.com//api/auth/google/callback${location.search}`);
                 const { jwt, user } = response.data;
                 // Store the JWT and user information as needed
                 localStorage.setItem('jwt', jwt);

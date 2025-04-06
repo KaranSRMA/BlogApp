@@ -24,7 +24,7 @@ const Contactpage = () => {
         if (!check) return;
 
         try {
-            await axios.post('http://localhost:1337/api/contacts', {
+            await axios.post('https://blogmazebackend.onrender.com//api/contacts', {
                 data: formData
             });
 
