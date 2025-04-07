@@ -88,7 +88,7 @@ const SinglePost = () => {
 
   if (!post) return <p className="text-center text-2xl">Loading...</p>;
 
-  const imageUrl = post.banner?.url ? `${import.meta.env.VITE_STRAPI_URL}${post.banner.url}` : null;
+  const imageUrl = post.banner?.url ? `${post.banner.url}` : null;
 
   return (
     <div>
@@ -168,7 +168,7 @@ const SinglePost = () => {
               <div>
                 <div className='flex gap-5 items-center'>
                   <div className='w-10 h-10 rounded-full overflow-hidden'>
-                    {post.authorimage.url && <img src={import.meta.env.VITE_STRAPI_URL + post.authorimage.url} className='object-cover w-full h-full' alt="author image" />}
+                    {post.authorimage.url && <img src={post.authorimage.url} className='object-cover w-full h-full' alt="author image" />}
                   </div>
                   {post.authorname && <p className='text-white'>{post.authorname}</p>}
                 </div>
@@ -200,7 +200,7 @@ const SinglePost = () => {
 
             <div className='p-3 flex flex-col'>
               <div className='h-72 rounded-2xl overflow-hidden'>
-                {blog.banner.url && <img src={import.meta.env.VITE_STRAPI_URL + blog.banner.url} alt="image" className='w-full h-full object-cover' />}
+                {blog.banner.url && <img src={blog.banner.url} alt="image" className='w-full h-full object-cover' />}
               </div>
               <div className='md:p-4 p-2'>
                 {blog.headline && (

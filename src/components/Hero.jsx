@@ -156,7 +156,7 @@ const Hero = () => {
                 {content.map((item,index) => (
                     <div key={index} className="border border-gray-500 flex flex-col gap-5 items-start px-8 lg:px-16 py-9 w-full">
                         <div>
-                            {item.icon.url && <img src={import.meta.env.VITE_STRAPI_URL + item.icon.url} alt="icon" className="w-12 lg:w-[50px]" />}
+                            {item.icon.url && <img src={item.icon.url} alt="icon" className="w-12 lg:w-[50px]" />}
                         </div>
 
                         <div className="flex w-full items-center justify-between">

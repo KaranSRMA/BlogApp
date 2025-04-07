@@ -60,7 +60,7 @@ const Blogspage = () => {
         {blogPosts[0] &&
           <div className='p-5 border-t border-b border-gray-600 flex flex-col lg:flex-row gap-10'>
             <div className='lg:max-w-[60em] lg:h-auto w-full max-h-80 rounded-2xl overflow-hidden'>
-              {blogPosts[0].banner?.url && <img src={import.meta.env.VITE_STRAPI_URL + blogPosts[0].banner.url} alt="image" className='w-full h-full object-cover' />}
+              {blogPosts[0].banner?.url && <img src={blogPosts[0].banner.url} alt="image" className='w-full h-full object-cover' />}
             </div>
 
             <div className='space-y-4'>
@@ -107,7 +107,7 @@ const Blogspage = () => {
             {blogPosts.filter(post => post.id !== trendingPostId).map((item, index) => (
               <div key={item.id} className='px-3 py-5 flex flex-col'>
                 <div className='h-72 rounded-2xl overflow-hidden'>
-                  {item.banner?.url && <img src={import.meta.env.VITE_STRAPI_URL + item.banner.url} alt="image" className='w-full h-full object-cover' />}
+                  {item.banner?.url && <img src={item.banner.url} alt="image" className='w-full h-full object-cover' />}
                 </div>
                 <div className='md:p-4 p-2'>
                   {item.headline && <p className='text-white text-sm truncate overflow-hidden whitespace-nowrap w-full'>{item.headline}</p>}

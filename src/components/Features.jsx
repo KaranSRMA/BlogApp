@@ -38,7 +38,7 @@ const Features = () => {
                         <div className='bg-[#141414] md:grid grid-cols-[1fr_2fr] gap-5 border border-gray-500'>
                             <div className='p-16 flex flex-col gap-5'>
                                 <div>
-                                    {item.icon.url && <img src={import.meta.env.VITE_STRAPI_URL + item.icon.url} alt="tech" className='w-16' />}
+                                    {item.icon.url && <img src={item.icon.url} alt="tech" className='w-16' />}
                                 </div>
 
                                 {item.mainheading && <h3 className='text-white text-3xl font-bold'>{item.mainheading}</h3>}

@@ -47,7 +47,7 @@ const Resources = () => {
             {/* ============= left side ============== */}
             <div className='flex flex-col gap-5 justify-center p-10 border-t lg:border-r border-gray-500 lg:w-1/3'>
               <div className='w-16 h-16 rounded-full overflow-hidden'>
-                {item.banner.url && <img src={import.meta.env.VITE_STRAPI_URL + item.banner.url} alt="tech" className='w-full h-full object-cover' />}
+                {item.banner.url && <img src={item.banner.url} alt="tech" className='w-full h-full object-cover' />}
               </div>
               {item.bookname && <h3 className='text-white text-2xl'>{item.bookname}</h3>}
               {item.shorttagline && <p className='text-sm text-gray-400'>{item.shorttagline}</p>}
@@ -62,7 +62,7 @@ const Resources = () => {
               </div>}
 
               <div>
-                {item.banner.url && <img src={import.meta.env.VITE_STRAPI_URL + item.banner.url} alt="image" className='w-1/1 h-80 object-cover rounded-2xl' />}
+                {item.banner.url && <img src={item.banner.url} alt="image" className='w-1/1 h-80 object-cover rounded-2xl' />}
               </div>
 
               <div className='flex flex-col lg:flex-row gap-5'>

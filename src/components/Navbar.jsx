@@ -25,7 +25,7 @@ const Navbar = () => {
                 const SITENAME = RESPONSE.data.data[0]?.SiteName;
 
                 if (LOGOPATH) {
-                    setLogoUrl(import.meta.env.VITE_STRAPI_URL + LOGOPATH);
+                    setLogoUrl(LOGOPATH);
                 }
 
                 if (SITENAME) {

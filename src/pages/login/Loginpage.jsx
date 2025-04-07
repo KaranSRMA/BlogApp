@@ -56,7 +56,7 @@ const Loginpage = () => {
 
 
   const handleGoogleSignup = async (e) => {
-    window.location.href = "http://localhost:1337/api/connect/google";
+    window.location.href = "https://blogmaze.onrender.com/api/connect/google";
   }
 
 

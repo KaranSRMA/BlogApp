@@ -80,7 +80,7 @@ const Blogs = () => {
                             <div className="flex gap-5 items-center">
                                 <div className="rounded-full min-w-20 min-h-20 w-20 h-20 overflow-hidden">
                                     {item.authorimage.url && (
-                                        <img src={import.meta.env.VITE_STRAPI_URL + item.authorimage.url} alt="author" className="w-full h-full rounded-full object-cover" />
+                                        <img src={item.authorimage.url} alt="author" className="w-full h-full rounded-full object-cover" />
                                     )}
                                 </div>
                                 <div>

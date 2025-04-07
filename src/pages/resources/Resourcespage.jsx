@@ -106,7 +106,7 @@ const Resourcespage = () => {
                     {/* ============= left side ============== */}
                     <div className='flex flex-col gap-5 justify-center p-10 border-t lg:border-r border-gray-500 lg:w-1/3'>
                         <div className='w-16 h-16 rounded-full overflow-hidden'>
-                            {filteredContent[0].banner.url && <img src={import.meta.env.VITE_STRAPI_URL + filteredContent[0].banner.url} alt="tech" className='w-full h-full object-cover' />}
+                            {filteredContent[0].banner.url && <img src={filteredContent[0].banner.url} alt="tech" className='w-full h-full object-cover' />}
                         </div>
                         {filteredContent[0].bookname && <h3 className='text-white text-2xl'>{filteredContent[0].bookname}</h3>}
                         {filteredContent[0].shorttagline && <p className='text-sm text-gray-400'>{filteredContent[0].shorttagline}</p>}
@@ -116,7 +116,7 @@ const Resourcespage = () => {
                     {/* =========== right side ============== */}
                     <div className='p-7 border-t border-gray-500 flex flex-col gap-7'>
                         <div>
-                            {filteredContent[0].banner.url && <img src={import.meta.env.VITE_STRAPI_URL + filteredContent[0].banner.url} alt="image" className='w-1/1 h-80 object-cover rounded-2xl' />}
+                            {filteredContent[0].banner.url && <img src={filteredContent[0].banner.url} alt="image" className='w-1/1 h-80 object-cover rounded-2xl' />}
                         </div>
 
                         <div className="grid md:grid-cols-[5fr_1fr] md:items-center grid-cols-1 gap-5">
@@ -167,7 +167,7 @@ const Resourcespage = () => {
                             {item.banner?.url && (
                                 <div className='w-full rounded-lg overflow-hidden'>
                                     <img
-                                        src={import.meta.env.VITE_STRAPI_URL + item.banner.url}
+                                        src={item.banner.url}
                                         alt="img"
                                         className='w-full h-48 object-cover'
                                     />
