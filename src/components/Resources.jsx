@@ -49,7 +49,7 @@ const Resources = () => {
               <div className='w-16 h-16 rounded-full overflow-hidden'>
                 {item.banner.url && <img src={item.banner.url} alt="tech" className='w-full h-full object-cover' />}
               </div>
-              {item.bookname && <h3 className='text-white text-2xl'>{item.bookname}</h3>}
+              {item.bookname && <h3 className='text-white text-xl lg:text-2xl'>{item.bookname}</h3>}
               {item.shorttagline && <p className='text-sm text-gray-400'>{item.shorttagline}</p>}
               {item.refrence && <ArrowupButton text="Visit Now" route={item.refrence} />}
             </div>
@@ -57,7 +57,7 @@ const Resources = () => {
             {/* =========== right side ============== */}
             <div className='p-7 border-t border-gray-500 flex flex-col gap-7'>
               {item.topics && <div className='flex flex-col lg:flex-row gap-5 lg:gap-10 lg:items-center'>
-                <h4 className='text-white text-2xl lg:w-1/3'>Variety of Topics</h4>
+                <h4 className='text-white text-xl lg:text-2xl lg:w-1/3'>Variety of Topics</h4>
                 <p className='text-gray-400 '>{item.topics}</p>
               </div>}
 
@@ -70,7 +70,7 @@ const Resources = () => {
                 <div className='bg-[#191919] p-5 flex items-center gap-5 lg:gap-10 justify-between border border-gray-500 rounded-lg w-full'>
                   {item.format && <div>
                     <p className='text-gray-400'>Downloads Formats</p>
-                    <h3 className='text-white text-lg lg:text-2xl'>{item.format} Format for access</h3>
+                    <h3 className='text-white text-sm lg:text-2xl'>{item.format} Format for access</h3>
                   </div>}
                   <div>
                     {item.refrence && <Link to={item.refrence}>

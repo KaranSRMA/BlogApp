@@ -52,13 +52,13 @@ const Footer = () => {
 
         <div className='flex gap-3 order-1 md:order-2'>
           <div className='w-10 h-10 rounded-full overflow-hidden'>
-            <a href="https://facebook.com" target="_blank" rel="noopener noreferrer">
+            <a href="https://www.facebook.com/share/164JJcACss/" target="_blank" rel="noopener noreferrer">
               <FaFacebookF className="hover:text-blue-600 text-3xl cursor-pointer" />
             </a>
           </div>
 
           <div className='w-10 h-10 rounded-full overflow-hidden'>
-            <a href="https://instagram.com" target="_blank" rel="noopener noreferrer">
+            <a href="https://www.instagram.com/krn._.srma?igsh=aWh0dWIyeDl4ajli" target="_blank" rel="noopener noreferrer">
               <FaInstagram className="hover:text-pink-500 text-3xl cursor-pointer" />
             </a>
           </div>

@@ -41,14 +41,14 @@ const Features = () => {
                                     {item.icon.url && <img src={item.icon.url} alt="tech" className='w-16' />}
                                 </div>
 
-                                {item.mainheading && <h3 className='text-white text-3xl font-bold'>{item.mainheading}</h3>}
+                                {item.mainheading && <h3 className='text-white text-xl lg:text-3xl font-bold'>{item.mainheading}</h3>}
                                 {item.shorttagline && <p className='text-gray-400'>{item.shorttagline}</p>}
                             </div>
 
                             <div className='grid grid-cols-1 md:grid-cols-2 gap-5 my-10 p-5'>
                                 {item.featuredetails.map((features) => (
                                     <div key={features.id} className='bg-[#191919] flex flex-col justify-center px-10 py-7 gap-5 rounded-2xl'>
-                                        {features.mainheading && <h4 className='text-white text-2xl'>{features.mainheading}</h4>}
+                                        {features.mainheading && <h4 className='text-white text-xl lg:text-2xl'>{features.mainheading}</h4>}
                                         {features.shorttagline && <p className='text-gray-400'>{features.shorttagline}</p>}
                                     </div>
                                 ))}

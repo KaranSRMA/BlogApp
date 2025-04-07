@@ -31,7 +31,7 @@ const Aboutpage = () => {
             <div className="text-center mb-10">
                 <h2 className="text-3xl font-semibold text-gray-300">Support & Grow</h2>
                 <p className="text-gray-400 mt-3 text-lg">Contribute any amount to directly support innovation, fuel high-quality content, and ensure continuous growth for the community.</p>
-                <div className="flex justify-center mx-48 mt-7">
+                <div className="mt-7">
 
                     {/* Premium Plan - Recommended */}
                     <div className="bg-[#242424] p-8 rounded-lg border border-[#ffcc00] text-center shadow-lg hover:scale-105 transition-transform relative">

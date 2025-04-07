@@ -14,7 +14,7 @@ const SectionHeading = () => {
             </div>
 
             <div className='flex flex-col md:flex-row gap-10 justify-between md:items-center'>
-                <h2 className='text-white text-3xl md:text-4xl mt-5'>{value.HeadingText}</h2>
+                <h2 className='text-white text-2xl md:text-4xl mt-5'>{value.HeadingText}</h2>
                 {value.ButtonText && <ArrowupButton text={value.ButtonText} route={value.RouteText} />}
             </div>
         </div>

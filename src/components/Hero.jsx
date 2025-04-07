@@ -114,7 +114,7 @@ const Hero = () => {
                     {/*-------------------------- Heading  --------------------------*/}
                     <div className='flex flex-col gap-7'>
                         {mainHeading && <h4 className='text-gray-400 font-bold'>{mainHeading}</h4>}
-                        {shortTagline && <h2 className='text-3xl lg:text-4xl text-white'>{shortTagline}</h2>}
+                        {shortTagline && <h2 className='text-2xl lg:text-4xl text-white'>{shortTagline}</h2>}
                         {description && <p className='text-gray-400 text-sm'>{description}</p>}
                     </div>
 
@@ -144,7 +144,7 @@ const Hero = () => {
                 {/*------------------------ Right side --------------------------*/}
                 <div className='bg-[url("/images/thumbnail1.png")] border border-gray-500 lg:border-0 bg-cover lg:bg-center lg:w-[732px]'>
                     <div className='lg:mt-72 mt-52 px-10 py-10 flex flex-col gap-3'>
-                        <h3 className='text-white text-2xl'>Unlock Limitless Resources</h3>
+                        <h3 className='text-white text-xl lg:text-2xl'>Unlock Limitless Resources</h3>
                         <p className='text-gray-400 text-sm'>Dive into a world of expert-curated insights, cutting-edge breakthroughs, and emerging tech trends. Whether you're exploring AI, cybersecurity, or web development, find everything you need to stay ahead. Start exploring today!</p>
                         <ArrowupButton text="Explore Resources" route={RouteText} />
                     </div>

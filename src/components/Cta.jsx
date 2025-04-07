@@ -16,7 +16,7 @@ const Cta = () => {
 
                 <div className='flex flex-col gap-5 '>
                     <CustomBadge text="Learn, Connect and Innovate" />
-                    <h2 className='text-3xl text-white'>Be Part of the BlogMaze Revolution</h2>
+                    <h2 className='lg:text-3xl text-xl text-white'>Be Part of the BlogMaze Revolution</h2>
                     <p className='text-gray-400'>Immerse yourself in the world of future technology. Explore our comprehensive resources, connect with fellow tech enthusiasts, and drive innovation in the industry. Join a dynamic community of forward-thinkers.</p>
                 </div>
             </div>
@@ -25,7 +25,7 @@ const Cta = () => {
             <div className='bg-[#141414] p-5 rounded-2xl flex flex-col lg:flex-row gap-5 mt-20'>
                 <div className='bg-[#191919] p-3 md:p-5 rounded-2xl'>
                     <div className='flex justify-between items-center'>
-                        <p className='text-white text-lg'>Resources Access</p>
+                        <p className='text-white lg:text-lg'>Resources Access</p>
                         <RoundarrowButton route="/resources"/>
                     </div>
                     <div className='pt-5'>
@@ -34,7 +34,7 @@ const Cta = () => {
                 </div>
                 <div className='bg-[#191919] p-3 md:p-5 rounded-2xl'>
                     <div className='flex justify-between items-center'>
-                        <p className='text-white text-lg'>Latest Insights</p>
+                        <p className='text-white lg:text-lg'>Latest Insights</p>
                         <RoundarrowButton route="/blogs"/>
                     </div>
                     <div className='pt-5'>
@@ -43,7 +43,7 @@ const Cta = () => {
                 </div>
                 <div className='bg-[#191919] p-3 md:p-5 rounded-2xl'>
                     <div className='flex justify-between items-center'>
-                        <p className='text-white text-lg'>Knowledge Hub</p>
+                        <p className='text-white lg:text-lg'>Knowledge Hub</p>
                         <RoundarrowButton route="/blogs"/>
                     </div>
                     <div className='pt-5'>

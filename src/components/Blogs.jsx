@@ -101,7 +101,7 @@ const Blogs = () => {
                                     </p>
                                 )}
                                 <div>
-                                    {item.headline && <h3 className="text-2xl text-white">{item.headline}</h3>}
+                                    {item.headline && <h3 className="lg:text-2xl text-xl text-white">{item.headline}</h3>}
                                     {item.mainheading && <p className="text-gray-400">{item.mainheading}</p>}
                                 </div>
                             </div>
