@@ -67,7 +67,7 @@ const Contactpage = () => {
                         <select className="bg-[#242424] text-white p-3 border-r border-gray-600">
                             <option>+91</option>
                         </select>
-                        <input type="text" name="phone" value={formData.phone} onChange={handleChange} placeholder="Phone Number" className="p-3 bg-[#242424] text-white w-full" required />
+                        <input type="number" name="phone" value={formData.phone} onChange={handleChange} placeholder="Phone Number" className="p-3 bg-[#242424] text-white w-full" required />
                     </div>
                 </div>
                 <textarea name="message" value={formData.message} onChange={handleChange} placeholder="Message" className="p-3 bg-[#242424] text-white border border-gray-600 rounded w-full mt-4 h-32" required></textarea>
