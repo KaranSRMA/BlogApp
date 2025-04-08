@@ -14,6 +14,7 @@ const Navbar = () => {
     const [siteName, setsiteName] = useState("BlogMaze");
     const [searchTerm, setSearchTerm] = useState("");
     const [suggestions, setSuggestions] = useState([]);
+    const [noResults, setNoResults] = useState(false);
     const { isAuthenticated } = useAuth();
     const menuRef = useRef(null);
 
@@ -34,12 +35,16 @@ const Navbar = () => {
     }, [location.pathname]);
 
     const fetchSuggestions = async (query) => {
-        if (!query) return setSuggestions([]);
+        if (!query) {
+            setSuggestions([]);
+            setNoResults(false);
+            return;
+        }
 
         try {
             const [blogsRes, resourcesRes] = await Promise.all([
-                axios.get(`${import.meta.env.VITE_STRAPI_URL}blogposts?filters[mainheading][$containsi]=${query}`),
-                axios.get(`${import.meta.env.VITE_STRAPI_URL}resources?filters[mainheading][$containsi]=${query}`),
+                axios.get(`${import.meta.env.VITE_STRAPI_URL}/blogposts?filters[mainheading][$containsi]=${query}`),
+                axios.get(`${import.meta.env.VITE_STRAPI_URL}/resources?filters[mainheading][$containsi]=${query}`),
             ]);
 
             const results = [
@@ -47,10 +52,13 @@ const Navbar = () => {
                 ...resourcesRes.data.data.map((item) => ({ ...item, type: "resource" })),
             ];
 
-            setSuggestions(results.slice(0, 5));
+            const sliced = results.slice(0, 5);
+            setSuggestions(sliced);
+            setNoResults(sliced.length === 0);
         } catch (err) {
             console.error("Suggestion error:", err);
             setSuggestions([]);
+            setNoResults(true);
         }
     };
 
@@ -171,22 +179,26 @@ const Navbar = () => {
                         </button>
                     </div>
 
-                    {/* Suggestions Dropdown */}
-                    {suggestions.length > 0 && (
+                    {/* Suggestions or No Result */}
+                    {searchVisible && searchTerm && (
                         <div className="absolute left-10 right-10 top-full bg-[#1f1f1f] z-20 mt-1 rounded-lg shadow-lg border border-gray-700 max-h-60 overflow-y-auto">
-                            {suggestions.map((sug) => (
-                                <div
-                                    key={sug.id}
-                                    onClick={() => {
-                                        navigate(`/${sug.type === "blog" ? "blogs" : "resources"}/${sug.id}`);
-                                        setSuggestions([]);
-                                        setSearchVisible(false);
-                                    }}
-                                    className="px-4 py-2 text-gray-300 hover:bg-[#333] cursor-pointer"
-                                >
-                                    {sug.attributes?.mainheading || "Untitled"}
-                                </div>
-                            ))}
+                            {suggestions.length > 0 ? (
+                                suggestions.map((sug) => (
+                                    <div
+                                        key={sug.id}
+                                        onClick={() => {
+                                            navigate(`/${sug.type === "blog" ? "blogs" : "resources"}/${sug.id}`);
+                                            setSuggestions([]);
+                                            setSearchVisible(false);
+                                        }}
+                                        className="px-4 py-2 text-gray-300 hover:bg-[#333] cursor-pointer"
+                                    >
+                                        {sug.attributes?.mainheading || "Untitled"}
+                                    </div>
+                                ))
+                            ) : (
+                                noResults && <div className="px-4 py-3 text-gray-400 text-sm">No data to show</div>
+                            )}
                         </div>
                     )}
                 </div>
