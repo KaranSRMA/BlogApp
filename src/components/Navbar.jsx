@@ -38,8 +38,8 @@ const Navbar = () => {
 
         try {
             const [blogsRes, resourcesRes] = await Promise.all([
-                axios.get(`${import.meta.env.VITE_STRAPI_URL}/blogposts?filters[mainheading][$containsi]=${query}`),
-                axios.get(`${import.meta.env.VITE_STRAPI_URL}/resources?filters[mainheading][$containsi]=${query}`),
+                axios.get(`${import.meta.env.VITE_STRAPI_URL}blogposts?filters[mainheading][$containsi]=${query}`),
+                axios.get(`${import.meta.env.VITE_STRAPI_URL}resources?filters[mainheading][$containsi]=${query}`),
             ]);
 
             const results = [
