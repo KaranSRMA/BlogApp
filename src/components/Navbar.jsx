@@ -182,7 +182,7 @@ const Navbar = () => {
                                     <div
                                         key={index}
                                         onClick={() => {
-                                            navigate(`/post/${sug.documentId}}`);
+                                            navigate(`/post/${sug.documentId}`);
                                             setSuggestions([]);
                                             setSearchVisible(false);
                                         }}
