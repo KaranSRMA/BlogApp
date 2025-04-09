@@ -42,15 +42,8 @@ const Navbar = () => {
         }
 
         try {
-            const [blogsRes, resourcesRes] = await Promise.all([
-                axios.get(`${import.meta.env.VITE_STRAPI_URL}/blogposts?filters[mainheading][$containsi]=${query}`),
-                axios.get(`${import.meta.env.VITE_STRAPI_URL}/resources?filters[mainheading][$containsi]=${query}`),
-            ]);
-
-            const results = [
-                ...blogsRes.data.data.map((item) => ({ ...item, type: "blog" })),
-                ...resourcesRes.data.data.map((item) => ({ ...item, type: "resource" })),
-            ];
+            const blogsRes = await axios.get(`${import.meta.env.VITE_STRAPI_URL}/blogposts?filters[headline][$containsi]=${query}`);
+            const results = blogsRes.data.data;
 
             const sliced = results.slice(0, 5);
             setSuggestions(sliced);
@@ -172,7 +165,7 @@ const Navbar = () => {
                             type="text"
                             value={searchTerm}
                             placeholder="Search..."
-                            className="text-white bg-[#0707079a] px-3 border border-gray-700 focus:border-gray-500 focus:outline-none py-2 rounded-l-lg transition-all duration-300 ease-in-out w-full"
+                            className="text-white bg-[#070707ec] px-3 border border-gray-700 focus:border-gray-500 focus:outline-none py-2 rounded-l-lg transition-all duration-300 ease-in-out w-full"
                         />
                         <button className="border border-l-0 border-gray-700 p-2 cursor-pointer rounded-r-lg bg-[#0707079a] hover:bg-gray-200 transition">
                             <Search className="w-6 h-6 text-gray-400" />
@@ -181,19 +174,19 @@ const Navbar = () => {
 
                     {/* Suggestions or No Result */}
                     {searchVisible && searchTerm && (
-                        <div className="absolute left-10 right-10 top-full bg-[#1f1f1f] z-20 mt-1 rounded-lg shadow-lg border border-gray-700 max-h-60 overflow-y-auto">
+                        <div className="absolute left-10 right-10 top-32 bg-[#1f1f1f] z-20 mt-1 rounded-lg shadow-lg border border-gray-700 max-h-60 overflow-y-auto">
                             {suggestions.length > 0 ? (
-                                suggestions.map((sug) => (
+                                suggestions.map((sug,index) => (
                                     <div
-                                        key={sug.id}
+                                        key={index}
                                         onClick={() => {
-                                            navigate(`/${sug.type === "blog" ? "blogs" : "resources"}/${sug.id}`);
+                                            navigate(`/blogs/${sug.documentId}}`);
                                             setSuggestions([]);
                                             setSearchVisible(false);
                                         }}
                                         className="px-4 py-2 text-gray-300 hover:bg-[#333] cursor-pointer"
                                     >
-                                        {sug.attributes?.mainheading || "Untitled"}
+                                        {sug.headline || "Untitled"}
                                     </div>
                                 ))
                             ) : (
