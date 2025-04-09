@@ -168,19 +168,21 @@ const Navbar = () => {
                             className="text-white bg-[#070707ec] px-3 border border-gray-700 focus:border-gray-500 focus:outline-none py-2 rounded-l-lg transition-all duration-300 ease-in-out w-full"
                         />
                         <button className="border border-l-0 border-gray-700 p-2 cursor-pointer rounded-r-lg bg-[#0707079a] hover:bg-gray-200 transition">
-                            <Search className="w-6 h-6 text-gray-400" />
+                            <Search onClick={() => {
+                                navigate('/blogs')
+                            }} className="w-6 h-6 text-gray-400" />
                         </button>
                     </div>
 
                     {/* Suggestions or No Result */}
                     {searchVisible && searchTerm && (
-                        <div className="absolute left-10 right-10 top-32 bg-[#1f1f1f] z-20 mt-1 rounded-lg shadow-lg border border-gray-700 max-h-60 overflow-y-auto">
+                        <div className="absolute left-10 right-10 top-24 bg-[#1f1f1f] z-20 mt-1 rounded-lg shadow-lg border border-gray-700 max-h-60 overflow-y-auto">
                             {suggestions.length > 0 ? (
-                                suggestions.map((sug,index) => (
+                                suggestions.map((sug, index) => (
                                     <div
                                         key={index}
                                         onClick={() => {
-                                            navigate(`/blogs/${sug.documentId}}`);
+                                            navigate(`/post/${sug.documentId}}`);
                                             setSuggestions([]);
                                             setSearchVisible(false);
                                         }}
